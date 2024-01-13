@@ -29,14 +29,22 @@ const login = (username, password) =>{
         .catch(error => reject(error));
     })
 }
-const readline = require("readline").createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
 
-readline.question("Inserisci username: \n", username => {
-    readline.question("Inserisci password: \n", password=>{
+const readInput = (domanda) =>{
+    return new Promise((resolve, reject)=>{
+        const readline = require("readline").createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
+        readline.question(domanda,input=>{
+            readline.close();
+            resolve(input);
+        })
+    });
+}
+
+readInput("Inserisci l'username: \n").then(username =>{
+    readInput("Inserisci la password:\n").then(password=>{
         login(username,password).then(response=>console.log(response)).catch(error => console.log(error));
-        readline.close();
     });
 });
