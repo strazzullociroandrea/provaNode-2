@@ -17,15 +17,21 @@ const fibonacci = (n, array = [1,1]) =>{
         fibonacci( n - 1 , array );
     }
 }
+const readInput = (domanda) =>{
+    return new Promise((resolve, reject)=>{
+        const readline = require("readline").createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
+        readline.question(domanda,input=>{
+            readline.close();
+            resolve(input);
+        })
+    });
+}
 
-const readline = require("readline").createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-readline.question("Inserisci un numero: \n", numero => {
+readInput("Inserisci un numero: \n").then(numero=>{
     numero = parseInt(numero);
     console.log("\nRisultato: ");
     fibonacci(numero);
-    readline.close();
 });
-
