@@ -29,9 +29,24 @@ const readInput = (domanda) =>{
         })
     });
 }
-
+//funzione ricorsiva con setImmediate corretta
+function fibonacciAsync(n, callback){
+    let F = [];
+    if(n === 2){
+        F = [1,1];
+        callback(F);
+    }else {
+        setImmediate(()=>{
+            fibonacciAsync( n - 1 , (F)=>{
+                F.push( F[ F.length - 2 ] + F[ F.length - 1 ] );
+                callback(F);
+            });
+        })
+    }
+}
 readInput("Inserisci un numero: \n").then(numero=>{
     numero = parseInt(numero);
     console.log("\nRisultato: ");
-    fibonacci(numero);
+    fibonacciAsync(numero,F=>console.log("["+F+"]"));
 });
+
